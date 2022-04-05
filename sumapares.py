@@ -1,11 +1,9 @@
-#from inspect import ArgSpec
 import sys
 import time
 import subprocess as sp
 import os
 import argparse
 from os import fork
-#from pty import fork
 
 def main():
     parser = argparse.ArgumentParser(description="Comandos")
