@@ -9,35 +9,32 @@ from os import fork
 
 def main():
     parser = argparse.ArgumentParser(description="Comandos")
-    parser = argparse.ArgumentParser(description=False)
-    parser.add_argument("-n", type=int,help="Numero de procesos hijos a generar")
+    parser.add_argument("-n", "--number", type=int , required=True , help="Numero de procesos hijos a generar" )
     #parser.add_argument("-h", type=str, help="Mostrar ayuda")
-    parser.add_argument("-v", action="stare_true", help="Activar modo verbose")
+    parser.add_argument("-v", "--verbose", action="store_true", help="Activar modo verbose")
     args = parser.parse_args()
-    fork_generator(args.n,args.v)
+    fork_generator(args.number,args.verbose)
     os.wait()
 
-def fork_generator(args,verbose):
-    for i in(args):
+def fork_generator(number,verbose):
+    for i in range(number):
+        forkp = fork()
         type_process = os.fork()
-        if type_process == 0:
+        if forkp == 0:
             pid = os.getpid()
             suma = 0
             ppid = os.getppid()
-            print("Proceso iniciado ",pid)
             if verbose:
                 print("Proceso iniciado ",pid)
             for k in range (0, pid+1, 2):
                 suma = k + suma
             if verbose:
-                print("Ending process ",pid)
+                print("Proceso terminado ",pid)
             print(pid, ppid, suma)
             os.exit(0)
             
             
-            
-            os._exit(0)
-        
+                    
 if __name__ == '__main__':
     main()
 
