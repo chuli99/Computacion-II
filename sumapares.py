@@ -31,7 +31,7 @@ def fork_generator(number,verbose):
             if verbose:
                 print("Proceso terminado ",pid)
             print(pid, ppid, suma)
-            os.exit(0)
+            os._exit(0)
             
             
                     
