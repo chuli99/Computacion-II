@@ -1,6 +1,5 @@
 import sys,os,argparse
-
-
+#[pipe]
 
 def main():
     parser = argparse.ArgumentParser(description="Comandos")
