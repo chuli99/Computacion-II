@@ -13,6 +13,7 @@ def fork_generator(args):
     list_pid = []
     global mapeo
     mapeo = mmap.mmap(-1,1024)
+    #hijo 1
     for i in range(2):
         ret = os.fork()
         if ret == 0:
@@ -26,17 +27,21 @@ def fork_generator(args):
                     os.kill(os.getppid(),signal.SIGUSR1)
             
             else:
-                signal.signal(signal.SIGUSR1, handler_padre)
-                signal.signal(signal.SIGUSR2, handler_padre)
+                signal.signal(signal.SIGUSR1, handler_hijo)
+                signal.signal(signal.SIGUSR2, handler_hijo)
                 while True:
                     signal.pause()
         else:
             list_pid.append(ret)
+    signal.signal(signal.SIGUSR1, handler_padre)
+    signal.signal(signal.SIGUSR2, handler_padre)
+    #signal.pause()
+    os.wait()
 
 def handler_hijo(s,f):
     if s == signal.SIGUSR1:
-        reading = mapeo.readline().decode()
-        fd = open(args.f, "a")
+        reading = mapeo.readline().decode().upper()
+        fd = open(args.function, "a")
         fd.write(reading)
         fd.close()
         print("Hijo 2 lee:",reading)
@@ -56,10 +61,10 @@ def handler_padre(s,f):
         sys.exit(0)
     
 def path(args):
-    if os.path.exists(args.f):
+    if os.path.exists(args):
         pass
     else:
-        file = open(args.f,"w")
+        file = open(args,"w")
         file.close()
 
 if __name__ == "__main__":
