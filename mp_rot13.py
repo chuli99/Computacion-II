@@ -1,35 +1,35 @@
-from multiprocessing import Process,Pipe
+from multiprocessing import Process,Pipe,Queue
 import os,time,sys,codecs
-import _multiprocessing as mp
 
-def child1(arg):
-    
+def child1(p,q):
+
     #stdin para leer
     sys.stdin = open(0)
     print("Ingrese una linea:")
     line = sys.stdin.readline()
-    arg.send(line)
+    p.send(line)
+    p.close()
     print("Hijo 1 lee:",line)
+    time.sleep(2)
+    #Hijo 1 recibe mensaje encriptado de cola de mensajes 
+    line_codec = q.get()
+    print("Hijo 1 lee mensaje encriptado:",line_codec)
     
-    #print("id hijo1:",os.getppid(),"id padre",os.getpid())
-    time.sleep(5)
-    #os.system("ps ft")
-    #print("F")
-
-def child2(arg):
-    
-    print("id hijo2:",os.getppid(),"id padre:",os.getpid())
-    print("Hijo 2 lee:")
-    line = str(arg.recv())
-    print(line)
+def child2(p,q):
+    line = str(p.recv())
+    print("Hijo 2 lee:",line)
+    time.sleep(2)
     #Hijo 2 aplica Rot13
     line_codec = codecs.encode(line,'rot_13')
-    print(line_codec)
+    #Hijo 2 agrega el mensaje encriptado a la cola de mensajes
+    q.put(line_codec)
 
 if __name__ == "__main__":
     a,b = Pipe()
-    print("Parent Id",os.getpid())
-    p1 = Process(target=child1, args=(a,))
-    p1.run()
-    p2 = Process(target=child2, args= (b,))    
-    p2.run()
+    q = Queue()
+    p1 = Process(target=child1, args=(a,q))
+    p2 = Process(target=child2, args= (b,q))    
+    p1.start()
+    p2.start()
+    p1.join()
+    p2.join()
