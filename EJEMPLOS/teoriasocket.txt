@@ -1,0 +1,11 @@
+Clase que crea el server: (Clases sin concurrencia)
+	-TCPServer
+	-UDPServer
+
+Clase que crea el server: (Con concurrencia)
+	-Clase nueva que hereda de:
+	TCPServer / UDPServer
+	ForkingMixIn / ThreadingMixIn
+
+Clase que atiende las conexiones -> RequestHandler
+metodo: handle(): gestiona el intercambio con el cliente
