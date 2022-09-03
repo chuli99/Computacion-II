@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("-c","--concurrence", type=str ,required=True,help="P o T dependiendo de un proceso o un hilo")
     args = parser.parse_args()
     HOST, PORT = "localhost", args.port
-    print(HOST,PORT)
+    print("Server iniciado en: ",HOST,PORT)
     socketserver.TCPServer.allow_reuse_address = True
     # Create the server, binding to localhost on port 9999
     
