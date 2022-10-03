@@ -1,4 +1,4 @@
-import socketserver,subprocess,socket
+import socketserver,subprocess
 import signal,os,argparse
 
 
@@ -23,7 +23,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 #Hereda para concurrencia
 class ProcTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):
-    address_family = socket.AF_INET6
     pass
 
 class ThrTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
