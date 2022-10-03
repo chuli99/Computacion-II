@@ -1,4 +1,4 @@
-import socketserver,subprocess
+import socketserver,subprocess,socket
 import signal,os,argparse
 
 
@@ -8,9 +8,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             self.data = self.request.recv(1024).strip()
             pp = subprocess.Popen([self.data], stdout = subprocess.PIPE,stderr = subprocess.PIPE, shell = True)
             out,err = pp.communicate()
-            if str(self.data) == "":
-                server.shutdown()
-                exit(0)
+            #if str(self.data) == "":
+            #    server.shutdown()
+            #    exit(0)
             if err:
                 self.request.sendall(b"ERROR \n"+err)
                 print(err)
@@ -23,6 +23,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 #Hereda para concurrencia
 class ProcTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):
+    address_family = socket.AF_INET6
     pass
 
 class ThrTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
