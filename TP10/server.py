@@ -47,6 +47,7 @@ if __name__ == "__main__":
                 server.shutdown()
             #server.shutdown()
 
+
     if args.concurrence == 't':
         with ThrTCPServer((HOST, PORT), MyTCPHandler) as server:
             server.serve_forever()

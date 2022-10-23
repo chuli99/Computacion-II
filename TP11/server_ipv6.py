@@ -1,4 +1,3 @@
-from ipaddress import IPv4Address
 import socketserver,subprocess,socket,threading
 import signal,os,argparse
 
@@ -10,9 +9,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             print(self.data)
             pp = subprocess.Popen([self.data], stdout = subprocess.PIPE,stderr = subprocess.PIPE, shell = True)
             out,err = pp.communicate()
-            #if str(self.data) == "":
-            #    server.shutdown()
-            #    exit(0)
             if err:
                 self.request.sendall(b"ERROR \n"+err)
                 print(err)
@@ -21,11 +17,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 print(out)
             
             print("PID: %d" % os.getpid())
-            #signal.pause()
 
 #Hereda para concurrencia
 class ProcTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):
     pass
+
 
 class ThrTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
