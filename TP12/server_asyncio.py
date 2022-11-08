@@ -17,8 +17,6 @@ def handle(self):
             
         print("PID: %d" % os.getpid())
 
-
-
 async def main(PORT):
     server = await asyncio.start_server(
         handle, 'localhost', PORT)
@@ -29,7 +27,6 @@ async def main(PORT):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Comandos")
     parser.add_argument("-p","--port", type=int,required=True,help="Numero de puerto del servidor")
-    parser.add_argument("-c","--concurrence", type=str ,required=True,help="P o T dependiendo de un proceso o un hilo")
     args = parser.parse_args()
     HOST, PORT = "localhost", args.port
     print("Server iniciado en: ",HOST,PORT)
