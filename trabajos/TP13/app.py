@@ -16,7 +16,6 @@ def main():
     calculate_function(args.calculate)
     
 
-
 def read_lines(file):
     #Abro txt y leo linea por linea y almaceno en una lista
     with open(file) as f:
@@ -30,7 +29,7 @@ def read_lines(file):
                 listli[i] = int(listli[i])
             m = lines.append(listli)            
             
-            
+
 def calculate_function(calculate):
     matriz_resultado = []
     #Ejecuta lo ingresado por consola en -c
